@@ -52,7 +52,7 @@ class CartRepository implements CartRepositoryInterface
         return $query->first();
     }
 
-    public function addItem(Cart $cart, int $productId, int $quantity, float $price): CartItem
+    public function addItem(Cart $cart, int $productId, int $quantity, float $price, array $productSnapshot = []): CartItem
     {
         $existingItem = $cart->items()->where('product_id', $productId)->first();
 
@@ -62,6 +62,7 @@ class CartRepository implements CartRepositoryInterface
                 'quantity' => $existingItem->quantity + $quantity,
                 'price' => $price,
                 'subtotal' => $subtotal,
+                'product_snapshot' => $productSnapshot,
             ]);
             return $existingItem->fresh();
         }
@@ -72,6 +73,7 @@ class CartRepository implements CartRepositoryInterface
             'quantity' => $quantity,
             'price' => $price,
             'subtotal' => $subtotal,
+            'product_snapshot' => $productSnapshot,
         ]);
     }
 

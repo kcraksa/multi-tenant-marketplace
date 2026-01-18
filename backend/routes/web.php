@@ -6,19 +6,19 @@ use App\Application\Controllers\ProductController;
 use App\Application\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 
-// API routes for development (direct on localhost)
-Route::prefix('api')->group(function () {
+// API routes for development (central domain only)
+Route::prefix('api')->middleware(['api'])->group(function () {
     // Authentication routes
     Route::post('/auth/register', [AuthController::class, 'register']);
     Route::post('/auth/login', [AuthController::class, 'login']);
 
     // Public product routes
-    Route::get('/products', [ProductController::class, 'active']);
-    Route::get('/products/featured', [ProductController::class, 'featured']);
-    Route::get('/products/{id}', [ProductController::class, 'show']);
+    Route::get('/products', [ProductController::class, 'active'])->middleware('tenant.header');
+    Route::get('/products/featured', [ProductController::class, 'featured'])->middleware('tenant.header');
+    Route::get('/products/{id}', [ProductController::class, 'show'])->middleware('tenant.header');
 
     // Cart routes (both guest and authenticated)
-    Route::prefix('cart')->group(function () {
+    Route::prefix('cart')->middleware('tenant.header')->group(function () {
         Route::get('/', [CartController::class, 'index']);
         Route::post('/items', [CartController::class, 'addItem']);
         Route::put('/items/{id}', [CartController::class, 'updateItem']);

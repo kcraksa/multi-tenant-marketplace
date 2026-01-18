@@ -47,7 +47,7 @@ class CartService
             }
 
             $cart = $this->getOrCreateCart($userId, $sessionId);
-            $cartItem = $this->cartRepository->addItem($cart, $productId, $quantity, (float) $product->price);
+            $cartItem = $this->cartRepository->addItem($cart, $productId, $quantity, (float) $product->price, $product->toArray());
 
             DB::commit();
 

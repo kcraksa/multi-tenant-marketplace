@@ -13,7 +13,7 @@ interface CartRepositoryInterface
     
     public function findActiveCart(?int $userId, ?string $sessionId): ?Cart;
     
-    public function addItem(Cart $cart, int $productId, int $quantity, float $price): CartItem;
+    public function addItem(Cart $cart, int $productId, int $quantity, float $price, array $productSnapshot = []): CartItem;
     
     public function updateItem(CartItem $item, int $quantity): bool;
     

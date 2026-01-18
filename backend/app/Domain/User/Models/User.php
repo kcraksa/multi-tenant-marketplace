@@ -86,4 +86,36 @@ class User extends Authenticatable
     {
         return $this->hasRole('customer');
     }
+
+    /**
+     * Override apiTokens to use central database connection.
+     */
+    public function apiTokens()
+    {
+        return $this->morphMany(\App\Models\PersonalAccessToken::class, 'tokenable');
+    }
+
+    /**
+     * Override createToken to use central database.
+     */
+    public function createToken(string $name, array $abilities = ['*'], \DateTimeInterface $expiresAt = null)
+    {
+        $originalConnection = $this->getConnectionName();
+        $this->setConnection('mysql');
+
+        try {
+            $plainTextToken = \Illuminate\Support\Str::random(40);
+
+            $token = $this->apiTokens()->create([
+                'name' => $name,
+                'token' => hash('sha256', $plainTextToken),
+                'abilities' => $abilities,
+                'expires_at' => $expiresAt,
+            ]);
+
+            return new \Laravel\Sanctum\NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
+        } finally {
+            $this->setConnection($originalConnection);
+        }
+    }
 }

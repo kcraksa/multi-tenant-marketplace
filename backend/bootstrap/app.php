@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'tenant.header' => \App\Http\Middleware\InitializeTenancyByHeader::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -113,6 +113,7 @@
 
 <script setup>
 import { useCartStore } from '../stores/cart'
+import { buildStorageUrl } from '@/utils/apiBase'
 
 const cartStore = useCartStore()
 
@@ -133,8 +134,5 @@ const clearCart = async () => {
   }
 }
 
-const getImageUrl = (path) => {
-  if (path.startsWith('http')) return path
-  return `${import.meta.env.VITE_API_URL || 'http://localhost'}/storage/${path}`
-}
+const getImageUrl = (path) => buildStorageUrl(path)
 </script>

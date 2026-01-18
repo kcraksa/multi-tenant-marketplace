@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
             'cost_per_item' => ['nullable', 'numeric', 'min:0'],
             'sku' => ['nullable', 'string', 'max:255', 'unique:products,sku,' . $productId],
             'barcode' => ['nullable', 'string', 'max:255'],
-            'quantity' => ['nullable', 'integer', 'min:0'],
+            'stock' => ['nullable', 'integer', 'min:0'],
             'track_inventory' => ['boolean'],
             'continue_selling' => ['boolean'],
             'weight' => ['nullable', 'numeric', 'min:0'],

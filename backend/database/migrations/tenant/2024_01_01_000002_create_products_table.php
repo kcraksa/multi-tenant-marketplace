@@ -21,21 +21,24 @@ return new class extends Migration
             $table->decimal('cost_per_item', 10, 2)->nullable();
             $table->string('sku')->unique()->nullable();
             $table->string('barcode')->nullable();
+            $table->integer('stock')->default(0);
             $table->integer('quantity')->default(0);
             $table->boolean('track_inventory')->default(true);
             $table->boolean('continue_selling')->default(false);
             $table->decimal('weight', 10, 2)->nullable();
             $table->string('weight_unit')->default('kg');
+            $table->string('image')->nullable();
             $table->json('images')->nullable();
             $table->enum('status', ['active', 'draft', 'archived'])->default('active');
-            $table->boolean('featured')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_featured')->default(false);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index(['status', 'featured']);
+            $table->index(['status', 'is_featured']);
             $table->index('created_at');
         });
     }

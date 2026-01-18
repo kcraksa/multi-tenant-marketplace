@@ -42,6 +42,7 @@ class CartItem extends Model
     protected $casts = [
         'quantity' => 'integer',
         'price' => 'decimal:2',
+        'product_snapshot' => 'array',
     ];
 
     /**

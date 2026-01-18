@@ -41,9 +41,27 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     ];
 
     /**
-     * Get the custom columns for the tenant.
+     * Columns stored directly on the tenants table instead of the data JSON.
      */
     public static function getCustomColumns(): array
+    {
+        return array_unique(array_merge(parent::getCustomColumns(), [
+            'name',
+            'email',
+            'phone',
+            'address',
+            'logo',
+            'status',
+            'plan',
+            'created_at',
+            'updated_at',
+        ]));
+    }
+
+    /**
+     * Get the internal columns that should not be stored in data.
+     */
+    public function getInternalColumns(): array
     {
         return [
             'id',
@@ -54,6 +72,9 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'logo',
             'status',
             'plan',
+            'data',
+            'created_at',
+            'updated_at',
         ];
     }
 

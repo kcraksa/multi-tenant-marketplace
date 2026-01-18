@@ -6,9 +6,11 @@ namespace App\Domain\Product\Services;
 
 use App\Domain\Product\Models\Product;
 use App\Domain\Product\Repositories\ProductRepositoryInterface;
+use App\Domain\Tenant\Models\Tenant;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
+use Stancl\Tenancy\Facades\Tenancy;
 
 class ProductService
 {
@@ -28,6 +30,9 @@ class ProductService
 
     public function getProductById(int $id): ?Product
     {
+        if (!tenancy()->initialized) {
+            return null;
+        }
         return $this->productRepository->find($id);
     }
 
@@ -86,16 +91,25 @@ class ProductService
 
     public function getActiveProducts(): Collection
     {
+        if (!tenancy()->initialized) {
+            return new Collection();
+        }
         return $this->productRepository->getActive();
     }
 
     public function getFeaturedProducts(int $limit = 10): Collection
     {
+        if (!tenancy()->initialized) {
+            return new Collection();
+        }
         return $this->productRepository->getFeatured($limit);
     }
 
     public function searchProducts(string $query): Collection
     {
+        if (!tenancy()->initialized) {
+            return new Collection();
+        }
         return $this->productRepository->search($query);
     }
 

@@ -15,6 +15,7 @@ return [
     'allowed_origins_patterns' => [
         '#^http://localhost:\d+$#',
         '#^http://127.0.0.1:\d+$#',
+        '#^http://([a-z0-9-]+\.)*localhost(:\d+)?$#i',
     ],
 
     'allowed_headers' => ['*'],

@@ -35,8 +35,6 @@ class Product extends Model
         'weight_unit',
         'image',
         'images',
-        'status',
-        'featured',
         'is_active',
         'is_featured',
         'category_id',
@@ -59,8 +57,6 @@ class Product extends Model
         'continue_selling' => 'boolean',
         'weight' => 'decimal:2',
         'images' => 'array',
-        'status' => 'string',
-        'featured' => 'boolean',
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
     ];
@@ -70,7 +66,7 @@ class Product extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('is_active', true)->orWhere('status', 'active');
+        return $query->where('is_active', true);
     }
 
     /**
@@ -78,7 +74,7 @@ class Product extends Model
      */
     public function scopeFeatured(Builder $query): Builder
     {
-        return $query->where('is_featured', true)->orWhere('featured', true);
+        return $query->where('is_featured', true);
     }
 
     /**

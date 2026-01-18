@@ -13,6 +13,8 @@ return [
         '127.0.0.1',
     ],
 
+    'tenant_domain_suffix' => env('TENANT_DOMAIN_SUFFIX'),
+
     'bootstrappers' => [
         Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
@@ -25,7 +27,7 @@ return [
         
         'template_tenant_connection' => null,
 
-        'prefix' => 'tenant',
+        'prefix' => '',
         'suffix' => '',
 
         'managers' => [
@@ -62,7 +64,7 @@ return [
 
     'features' => [
         // Stancl\Tenancy\Features\UserImpersonation::class,
-        Stancl\Tenancy\Features\TenantsTable::class,
+        // Stancl\Tenancy\Features\TenantsTable::class, // Not available in v3.9
         Stancl\Tenancy\Features\CrossDomainRedirect::class,
         Stancl\Tenancy\Features\ViteBundler::class,
     ],
@@ -74,6 +76,6 @@ return [
     ],
 
     'seeder_parameters' => [
-        '--class' => 'DatabaseSeeder',
+        '--class' => \Database\Seeders\TenantDatabaseSeeder::class,
     ],
 ];
